@@ -7,31 +7,38 @@ class Converter
 	def initialize(json_url)
 		@json_url = json_url
 		@headers = Array.new
-		@final = Array.new
+		@csv_string = convert_json_to_csv()
 	end
 
 	def get_csv_string()
+		puts @csv_string
+		return @csv_string
+	end
+
+	private
+	def convert_json_to_csv()
+		final = Array.new
 		uri = URI(@json_url)
 		json_response = JSON.parse(Net::HTTP.get(uri))
 		json_response.each_with_index do |row, index|
 			if index == 0
-				@final.append(make_headers(row))
-				@final.append(make_rows(@headers, row))
+				final.append(make_headers(row))
+				final.append(make_rows(@headers, row))
 			else
-				@final.append(make_rows(@headers, row))
+				final.append(make_rows(@headers, row))
 			end
 		end
 
 		csv_string = CSV.generate do |csv|
-			@final.each do |row|
+			final.each do |row|
 				csv << row
 			end
 		end
 
-		puts csv_string
 		return csv_string
 	end
 
+	# Defining headers
 	private
 	def make_headers(row)
 		row.keys.each do |column|
@@ -40,6 +47,7 @@ class Converter
 		return @headers
 	end
 
+	# Using recursion to get to headers inside nested objects
 	private
 	def build_header_recursively(column, value)
 		if value.class == Hash
@@ -52,6 +60,7 @@ class Converter
 		end
 	end
 
+	# With headers already defined, we can access column values to define rows
 	private
 	def make_rows(headers, row)
 		values = Array.new
