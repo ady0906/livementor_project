@@ -18,7 +18,7 @@ puts csv_comparison_string
 puts '----------------------'
 
 if csv_string == csv_comparison_string
-	puts 'Test successful: the converted JSON file and the CSV reference are identical'
+  puts 'Test successful: the converted JSON file and the CSV reference are identical'
 else
-	puts 'Test unsuccessful: the converted JSON file and the CSV reference are different'
+  puts 'Test unsuccessful: the converted JSON file and the CSV reference are different'
 end
