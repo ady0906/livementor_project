@@ -39,7 +39,7 @@ class Converter
     return csv_string
   end
 
-	# Defining headers
+  # Defining headers
   private
   def make_headers(row)
     row.keys.each do |column|
