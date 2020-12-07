@@ -11,7 +11,6 @@ class Converter
 	end
 
 	def get_csv_string()
-		puts @csv_string
 		return @csv_string
 	end
 
@@ -29,6 +28,7 @@ class Converter
 			end
 		end
 
+		# Generating csv output
 		csv_string = CSV.generate do |csv|
 			final.each do |row|
 				csv << row
